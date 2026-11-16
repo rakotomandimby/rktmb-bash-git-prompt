@@ -1,6 +1,12 @@
 # Informative Git Prompt for Bash (Bash 5.0+)
 
+> This is the `v2026` branch of the **Bash Git Prompt** project, which is a complete rewrite of the original `master` branch.
+> The rewrite has been massively helped by Gemini 4 and Antigravity. 
+> Bugs might have been fixed, bug might have been introduced: [Create an issue](https://github.com/magicmonty/bash-git-prompt/issues/new) if you find any problems.
+
 An interactive, themeable, fast, and security-hardened Git prompt for **GNU Bash 5.0+**.
+
+> Compatibility: The `v2026` branch is **not** compatible with the `master` branch, nor with versions of Bash older than 5.0. There is no Python nor Ruby component.
 
 Displays real-time Git repository metadata—active branch, detached tag or short commit SHA, in-progress multi-step operations (`REBASE-i`, `REBASE-m`, `REBASE`, `AM`, `MERGING`, `CHERRY-PICKING`, `REVERTING`, `BISECTING`) with step progress, remote tracking divergence (`↑·N`, `↓·M`, `L`), working-tree/index/submodule/stash counts, previous command exit status or OS signal name, and active Python/Node.js/Conda virtual environments.
 
@@ -15,14 +21,25 @@ Displays real-time Git repository metadata—active branch, detached tag or shor
 
 ## Quick Start
 
-Clone this repository and source `gitprompt.sh` from your `~/.bashrc`:
+If you want to use the old version which is in the `master` branch:
+
+```
+git clone --single-branch --branch=master git@github.com:magicmonty/bash-git-prompt.git ${HOME}/.bash-git-prompt
+```
+
+If you want to use the new version which is in the `v2026` branch:
+
+```
+git clone --single-branch --branch=v2026 git@github.com:magicmonty/bash-git-prompt.git ${HOME}/.bash-git-prompt
+```
+
+Then source `gitprompt.sh` from your `~/.bashrc`:
 
 ```bash
 # Optional configuration before sourcing gitprompt.sh:
 GIT_PROMPT_ONLY_IN_REPO=1
 GIT_PROMPT_THEME=Default
-
-source /path/to/bash-git-prompt/gitprompt.sh
+source ~/.bash-git-prompt/gitprompt.sh
 ```
 
 ---
