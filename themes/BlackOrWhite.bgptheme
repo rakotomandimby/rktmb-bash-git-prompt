@@ -1,0 +1,266 @@
+# shellcheck shell=bash
+# BlackOrWhite.bgptheme - Modular dark/light theme supporting bubbles,
+# bubbles_with_double_line, and powerline styles, configurable visible sections,
+# and Nerd Font icon injection/replacement across 10 section groups & 10 OS distros.
+
+GIT_PROMPT_THEME_NAME="BlackOrWhite"
+
+__gp_bow_has_token() {
+  local csv=",${1:-},"
+  local token=$2
+  [[ $csv == *",${token},"* ]]
+}
+
+__gp_bow_detect_os() {
+  if [[ -n ${__GP_BOW_OS_OVERRIDE:-} ]]; then
+    REPLY=$__GP_BOW_OS_OVERRIDE
+    return 0
+  fi
+  if [[ ${OSTYPE:-} == darwin* ]]; then
+    REPLY="macos"
+    return 0
+  fi
+  local os_id="" line
+  if [[ -f /etc/os-release && -r /etc/os-release ]]; then
+    while IFS= read -r line; do
+      if [[ $line == ID=* ]]; then
+        os_id=${line#ID=}
+        os_id=${os_id//\"/}
+        os_id=${os_id//\'/}
+        break
+      fi
+    done < /etc/os-release
+  fi
+  case ${os_id,,} in
+    arch|archlinux)         REPLY="archlinux" ;;
+    centos)                 REPLY="centos" ;;
+    debian)                 REPLY="debian" ;;
+    fedora)                 REPLY="fedora" ;;
+    gentoo)                 REPLY="gentoo" ;;
+    linuxmint|mint)         REPLY="linuxmint" ;;
+    opensuse*|suse|sles)    REPLY="opensuse" ;;
+    rhel|redhat)            REPLY="redhat" ;;
+    ubuntu)                 REPLY="ubuntu" ;;
+    *)                      REPLY=${os_id:-linux} ;;
+  esac
+}
+
+__gp_bow_os_icon() {
+  local os_name=$1
+  case $os_name in
+    macos)      REPLY="" ;;
+    archlinux)  REPLY="" ;;
+    centos)     REPLY="" ;;
+    debian)     REPLY="" ;;
+    fedora)     REPLY="" ;;
+    gentoo)     REPLY="" ;;
+    linuxmint)  REPLY="" ;;
+    opensuse)   REPLY="" ;;
+    redhat)     REPLY="" ;;
+    ubuntu)     REPLY="" ;;
+    *)          REPLY="" ;;
+  esac
+}
+
+__gp_configure_black_or_white_theme() {
+  local ps1_color=${GIT_PROMPT_BLACK_OR_WHITE_THEME_PS1_COLOR:-black}
+  local style=${GIT_PROMPT_BLACK_OR_WHITE_THEME_STYLE:-bubbles}
+  local visible=${GIT_PROMPT_BLACK_OR_WHITE_THEME_VISIBLE_SECTIONS:-path}
+  [[ -z $visible ]] && visible="path"
+  local icons=${GIT_PROMPT_BLACK_OR_WHITE_THEME_ADD_OR_REPLACE_ICONS_IN_SECTIONS:-}
+  local extra_sp=""
+  if [[ ${GIT_PROMPT_BLACK_OR_WHITE_THEME_ADD_EXTRA_SPACE_AFTER_ICONS:-false} == "true" ]]; then
+    extra_sp=" "
+  fi
+
+  local base_fg frame_fg accent_fg section_bg
+  if [[ $ps1_color == "white" ]]; then
+    base_fg="${White}"
+    frame_fg="${BoldWhite}"
+    accent_fg="${Cyan}"
+    section_bg="${BlackBg}"
+  else
+    base_fg="${IntenseBlack}"
+    frame_fg="${BoldBlack}"
+    accent_fg="${Blue}"
+    section_bg="${WhiteBg}"
+  fi
+
+  local REPLY=""
+  __gp_bow_detect_os
+  local os_name=$REPLY
+  __gp_bow_os_icon "$os_name"
+  local os_glyph=$REPLY
+
+  local icon_os="" icon_user="" icon_host="" icon_time="" icon_path=""
+  if __gp_bow_has_token "$icons" "os"; then
+    icon_os="${os_glyph}${extra_sp} "
+  fi
+  if __gp_bow_has_token "$icons" "user"; then
+    icon_user="${extra_sp} "
+  fi
+  if __gp_bow_has_token "$icons" "hostname"; then
+    icon_host=" desktop${extra_sp} "
+    icon_host="${extra_sp} "
+  fi
+  if __gp_bow_has_token "$icons" "time"; then
+    icon_time="${extra_sp} "
+  fi
+  if __gp_bow_has_token "$icons" "path"; then
+    icon_path="${extra_sp} "
+  fi
+
+  if __gp_bow_has_token "$icons" "last_command_state_ok_fail"; then
+    GIT_PROMPT_COMMAND_OK="${Green}${extra_sp}"
+    GIT_PROMPT_COMMAND_FAIL="${Red}${extra_sp}-_LAST_COMMAND_STATE_"
+  else
+    GIT_PROMPT_COMMAND_OK="${Green}✔${extra_sp}"
+    GIT_PROMPT_COMMAND_FAIL="${Red}✘${extra_sp}-_LAST_COMMAND_STATE_"
+  fi
+
+  local branch_icon=""
+  if __gp_bow_has_token "$icons" "git_branch_powerline"; then
+    branch_icon="${extra_sp} "
+  elif __gp_bow_has_token "$icons" "git_branch"; then
+    branch_icon="${extra_sp} "
+  fi
+
+  if __gp_bow_has_token "$icons" "git_status"; then
+    GIT_PROMPT_STAGED="${Red}${extra_sp} "
+    GIT_PROMPT_CONFLICTS="${Red}${extra_sp} "
+    GIT_PROMPT_CHANGED="${Blue}${extra_sp} "
+    GIT_PROMPT_UNTRACKED="${Cyan}${extra_sp}"
+    GIT_PROMPT_STASHED="${BoldBlue}${extra_sp} "
+    GIT_PROMPT_CLEAN="${BoldGreen}${extra_sp}"
+  else
+    GIT_PROMPT_STAGED="${Red}●${extra_sp} "
+    GIT_PROMPT_CONFLICTS="${Red}✖${extra_sp} "
+    GIT_PROMPT_CHANGED="${Blue}✚${extra_sp} "
+    GIT_PROMPT_UNTRACKED="${Cyan}…${extra_sp}"
+    GIT_PROMPT_STASHED="${BoldBlue}⚑${extra_sp} "
+    GIT_PROMPT_CLEAN="${BoldGreen}✔${extra_sp}"
+  fi
+
+  GIT_PROMPT_BRANCH="${Magenta}${branch_icon}"
+  GIT_PROMPT_MASTER_BRANCH="${GIT_PROMPT_BRANCH}"
+  GIT_PROMPT_DETACHED_HEAD="${GIT_PROMPT_BRANCH}"
+
+  local line1_open line1_join line1_close line2_user line2_root
+  local end_char="•"
+  if __gp_bow_has_token "$icons" "last_command_state_prompt"; then
+    end_char="${extra_sp}"
+  fi
+
+  case $style in
+    bubbles_with_double_line)
+      GIT_PROMPT_LEADING_SPACE=0
+      line1_open="${frame_fg}╔═(${ResetColor}"
+      line1_join="${frame_fg})══(${ResetColor}"
+      line1_close="${frame_fg})${ResetColor}"
+      GIT_PROMPT_PREFIX="\n${frame_fg}╠═(${ResetColor}"
+      GIT_PROMPT_SUFFIX="${frame_fg})${ResetColor}"
+      end_char=">"
+      if __gp_bow_has_token "$icons" "last_command_state_prompt"; then
+        end_char="${extra_sp}"
+      fi
+      line2_user="\n${frame_fg}╚═${end_char}${ResetColor} "
+      line2_root="\n${frame_fg}╚═${Red}(!)${frame_fg}${end_char}${ResetColor} "
+      ;;
+    powerline)
+      GIT_PROMPT_LEADING_SPACE=0
+      line1_open="${frame_fg}┌─${ResetColor}${base_fg}${section_bg} "
+      line1_join=" ${frame_fg}${ResetColor}${base_fg}${section_bg} "
+      line1_close=" ${ResetColor}"
+      GIT_PROMPT_PREFIX="${frame_fg}${ResetColor}${base_fg}${section_bg} "
+      GIT_PROMPT_SUFFIX=" ${ResetColor}"
+      line2_user="\n${frame_fg}└─${end_char}${ResetColor} "
+      line2_root="\n${frame_fg}└─${Red}(!)${frame_fg}${end_char}${ResetColor} "
+      ;;
+    *)
+      # Default: bubbles
+      GIT_PROMPT_LEADING_SPACE=0
+      line1_open="${frame_fg}┌─(${ResetColor}"
+      line1_join="${frame_fg})──(${ResetColor}"
+      line1_close="${frame_fg})${ResetColor}"
+      GIT_PROMPT_PREFIX="${frame_fg}──(${ResetColor}"
+      GIT_PROMPT_SUFFIX="${frame_fg})${ResetColor}"
+      line2_user="\n${frame_fg}└─${end_char}${ResetColor} "
+      line2_root="\n${frame_fg}└─${Red}(!)${frame_fg}${end_char}${ResetColor} "
+      ;;
+  esac
+
+  local -a sec_list=() rendered_user=() rendered_root=()
+  IFS=',' read -ra sec_list <<< "$visible"
+  local sec seg_u seg_r
+  for sec in "${sec_list[@]}"; do
+    __gp_trim "$sec"
+    sec=$REPLY
+    [[ -z $sec ]] && continue
+    seg_u=""
+    seg_r=""
+    case $sec in
+      os)
+        seg_u="${base_fg}${icon_os}${os_name}${ResetColor}"
+        seg_r=$seg_u
+        ;;
+      os_icon)
+        seg_u="${base_fg}${os_glyph}${extra_sp}${ResetColor}"
+        seg_r=$seg_u
+        ;;
+      user)
+        seg_u="${Green}${icon_user}\\u${ResetColor}"
+        seg_r="${BoldRed}${icon_user}\\u (!)${ResetColor}"
+        ;;
+      hostname)
+        seg_u="${Cyan}${icon_host}\\h${ResetColor}"
+        seg_r=$seg_u
+        ;;
+      user_and_hostname)
+        seg_u="${Green}${icon_user}\\u${base_fg}@${Cyan}${icon_host}\\h${ResetColor}"
+        seg_r="${BoldRed}${icon_user}\\u (!)@${Cyan}${icon_host}\\h${ResetColor}"
+        ;;
+      time)
+        seg_u="${White}${icon_time}${Time12a}${ResetColor}"
+        seg_r=$seg_u
+        ;;
+      path)
+        seg_u="${Yellow}${icon_path}${PathShort}${ResetColor}"
+        seg_r=$seg_u
+        ;;
+      last_command_state)
+        seg_u="_LAST_COMMAND_INDICATOR_"
+        seg_r="_LAST_COMMAND_INDICATOR_"
+        ;;
+    esac
+    if [[ -n $seg_u ]]; then
+      rendered_user+=("$seg_u")
+      rendered_root+=("$seg_r")
+    fi
+  done
+
+  if (( ${#rendered_user[@]} == 0 )); then
+    rendered_user+=("${Yellow}${icon_path}${PathShort}${ResetColor}")
+    rendered_root+=("${Yellow}${icon_path}${PathShort}${ResetColor}")
+  fi
+
+  local start_u=$line1_open
+  local start_r=$line1_open
+  local i
+  for i in "${!rendered_user[@]}"; do
+    if (( i > 0 )); then
+      start_u+=$line1_join
+      start_r+=$line1_join
+    fi
+    start_u+=${rendered_user[i]}
+    start_r+=${rendered_root[i]}
+  done
+  start_u+=$line1_close
+  start_r+=$line1_close
+
+  GIT_PROMPT_START_USER=$start_u
+  GIT_PROMPT_START_ROOT=$start_r
+  GIT_PROMPT_END_USER=$line2_user
+  GIT_PROMPT_END_ROOT=$line2_root
+}
+
+__gp_configure_black_or_white_theme

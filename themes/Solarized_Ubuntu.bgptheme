@@ -1,0 +1,12 @@
+# shellcheck shell=bash
+# Solarized_Ubuntu.bgptheme - Solarized tuned with trailing spaces for Ubuntu terminal fonts
+
+GIT_PROMPT_THEME_NAME="Solarized_Ubuntu"
+
+GIT_PROMPT_STAGED="${Yellow}● "
+GIT_PROMPT_STASHED="${BoldMagenta}⚑ "
+GIT_PROMPT_CLEAN="${Green}✔ "
+GIT_PROMPT_COMMAND_OK="${Green}✔ "
+
+GIT_PROMPT_END_USER=" \n${BoldBlue}${Time12a}${ResetColor} $ "
+GIT_PROMPT_END_ROOT=" \n${BoldBlue}${Time12a}${ResetColor} # "

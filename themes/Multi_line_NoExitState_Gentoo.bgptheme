@@ -1,0 +1,15 @@
+# shellcheck shell=bash
+# Multi_line_NoExitState_Gentoo.bgptheme - Gentoo-styled two-line prompt without exit state
+
+GIT_PROMPT_THEME_NAME="Multi_line_NoExitState_Gentoo"
+
+GIT_PROMPT_LEADING_SPACE=0
+GIT_PROMPT_PREFIX="["
+GIT_PROMPT_SUFFIX="]"
+GIT_PROMPT_SEPARATOR="|"
+GIT_PROMPT_BRANCH="${Cyan}"
+
+GIT_PROMPT_START_USER="${BoldGreen}\\u@\\h${ResetColor} ${BrightBlue}${PathShort}${ResetColor}\n"
+GIT_PROMPT_START_ROOT="${BoldRed}\\h${ResetColor} ${BrightBlue}${PathShort}${ResetColor}\n"
+GIT_PROMPT_END_USER="${BrightBlue} \\$ ${ResetColor}"
+GIT_PROMPT_END_ROOT="${BrightBlue} \\$ ${ResetColor}"

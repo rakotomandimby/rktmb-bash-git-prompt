@@ -1,0 +1,14 @@
+# shellcheck shell=bash
+# Solarized_NoExitState.bgptheme - Solarized omitting exit state
+
+GIT_PROMPT_THEME_NAME="Solarized_NoExitState"
+
+GIT_PROMPT_STAGED="${Yellow}●"
+GIT_PROMPT_STASHED="${BoldMagenta}⚑ "
+GIT_PROMPT_CLEAN="${Green}✔"
+GIT_PROMPT_COMMAND_FAIL="${Red}✘"
+
+GIT_PROMPT_START_USER="${Yellow}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+GIT_PROMPT_END_USER=" \n${BoldBlue}${Time12a}${ResetColor} $ "
+GIT_PROMPT_END_ROOT=" \n${BoldBlue}${Time12a}${ResetColor} # "

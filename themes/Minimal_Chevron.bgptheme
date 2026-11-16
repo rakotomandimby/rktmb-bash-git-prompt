@@ -1,0 +1,40 @@
+# shellcheck shell=bash
+# Minimal_Chevron.bgptheme - Two-line chevron-styled variant of Minimal
+
+GIT_PROMPT_THEME_NAME="Minimal_Chevron"
+
+prompt_callback() {
+  local repo_path ps1_path
+  if [[ -n ${__GP_GIT_TOPLEVEL:-} ]]; then
+    local base=${__GP_GIT_TOPLEVEL##*/}
+    local rel=${PWD#"$__GP_GIT_TOPLEVEL"}
+    repo_path="${base}${rel}"
+  else
+    repo_path=$(gp_truncate_pwd)
+  fi
+  __gp_escape_for_ps1 "$repo_path"
+  ps1_path=$REPLY
+  printf '%s%s' "$(gp_set_window_title "$repo_path")" "${Cyan}${ps1_path}${ResetColor}"
+}
+
+GIT_PROMPT_PREFIX="["
+GIT_PROMPT_SUFFIX="]"
+GIT_PROMPT_SEPARATOR=""
+GIT_PROMPT_STAGED=" ${Red}● "
+GIT_PROMPT_CONFLICTS=" ${Red}❮❮ "
+GIT_PROMPT_CHANGED=" ${Blue}✚."
+GIT_PROMPT_UNTRACKED=" ${Cyan}…"
+GIT_PROMPT_STASHED=" ${BoldBlue}⚑ "
+GIT_PROMPT_CLEAN=" ${BoldGreen}❯❯"
+
+GIT_PROMPT_COMMAND_OK="${Green}❯❯"
+GIT_PROMPT_COMMAND_FAIL="${Red}❮❮ _LAST_COMMAND_STATE_"
+
+GIT_PROMPT_SYMBOLS_AHEAD="⬆."
+GIT_PROMPT_SYMBOLS_BEHIND="⬇."
+GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="${Red}✭"
+
+GIT_PROMPT_START_USER="\n_LAST_COMMAND_INDICATOR_ "
+GIT_PROMPT_START_ROOT="\n_LAST_COMMAND_INDICATOR_ "
+GIT_PROMPT_END_USER="\n${White}${Time12a}${ResetColor} ❯❯ "
+GIT_PROMPT_END_ROOT="\n${White}${Time12a}${ResetColor} ${BoldRed}❯❯${ResetColor} "

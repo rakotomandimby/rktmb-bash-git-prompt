@@ -1,0 +1,8 @@
+# shellcheck shell=bash
+# Default_Ubuntu.bgptheme - Default theme tuned with trailing spaces for Ubuntu terminal fonts
+
+GIT_PROMPT_THEME_NAME="Default_Ubuntu"
+
+GIT_PROMPT_STAGED="${Red}● "
+GIT_PROMPT_CLEAN="${BoldGreen}✔ "
+GIT_PROMPT_COMMAND_OK="${Green}✔ "

@@ -1,0 +1,37 @@
+# shellcheck shell=bash
+# Chmike.bgptheme - Two-line Crunch-inspired dark theme with Ruby version and emoji symbols
+
+GIT_PROMPT_THEME_NAME="Chmike"
+
+__gp_chmike_ruby() {
+  local ruby=""
+  if command -v rvm-prompt >/dev/null 2>&1; then
+    ruby=$(rvm-prompt i v g 2>/dev/null)
+  elif command -v rbenv >/dev/null 2>&1; then
+    ruby=$(rbenv version-name 2>/dev/null)
+  fi
+  [[ -n $ruby ]] && printf '%s' "${Red}[${ruby}]${ResetColor}"
+}
+
+RUBY_PROMPT=$(__gp_chmike_ruby)
+
+GIT_PROMPT_PREFIX="${Cyan}["
+GIT_PROMPT_SUFFIX="${Cyan}]"
+GIT_PROMPT_SEPARATOR="|"
+GIT_PROMPT_BRANCH="${Green}"
+GIT_PROMPT_STAGED="${Yellow}▸"
+GIT_PROMPT_CONFLICTS="${Red}❓"
+GIT_PROMPT_CHANGED="${Yellow}❗"
+GIT_PROMPT_UNTRACKED="${Cyan}…"
+GIT_PROMPT_STASHED="${BoldMagenta}>"
+GIT_PROMPT_CLEAN="${BoldGreen}✔"
+
+GIT_PROMPT_COMMAND_OK="${Green}✔"
+GIT_PROMPT_COMMAND_FAIL="${Red}✘"
+
+GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="⭐"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${White}{${Time12a}}${ResetColor}${RUBY_PROMPT}${Yellow}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+GIT_PROMPT_END_USER="\n${BoldBlue}➭ ${ResetColor}"
+GIT_PROMPT_END_ROOT="\n${BoldRed}# ${ResetColor}"

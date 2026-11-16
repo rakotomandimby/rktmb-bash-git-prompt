@@ -1,0 +1,25 @@
+# shellcheck shell=bash
+# Solarized_UserHost.bgptheme - Derived from Solarized_Extravagant with user@host on line 2
+
+GIT_PROMPT_THEME_NAME="Solarized_UserHost"
+
+GIT_PROMPT_PREFIX="${Cyan}["
+GIT_PROMPT_SUFFIX="${Cyan}]"
+GIT_PROMPT_SEPARATOR="|"
+GIT_PROMPT_BRANCH="${Magenta}"
+GIT_PROMPT_STAGED="${Yellow}● "
+GIT_PROMPT_CONFLICTS="${Red}✖ "
+GIT_PROMPT_CHANGED="${Blue}✚ "
+GIT_PROMPT_UNTRACKED="${Cyan}… "
+GIT_PROMPT_STASHED="${BoldMagenta}⚑ "
+GIT_PROMPT_CLEAN="${Green}✔ "
+
+GIT_PROMPT_COMMAND_OK="${Green}✔ "
+GIT_PROMPT_COMMAND_FAIL="${Red}✘ "
+
+GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="✭"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_${Yellow}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+GIT_PROMPT_END_USER="\n${BoldBlue}\\u@\\h ➤  ${ResetColor}"
+GIT_PROMPT_END_ROOT="\n${BoldRed}\\u@\\h #️  ${ResetColor}"

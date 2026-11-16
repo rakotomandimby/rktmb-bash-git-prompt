@@ -1,0 +1,27 @@
+# shellcheck shell=bash
+# Single_line_Solarized_Lamda.bgptheme - Single_line_Solarized variant with [HH:MM] and orange lambda
+
+GIT_PROMPT_THEME_NAME="Single_line_Solarized_Lamda"
+
+Orange='\[\033[38;5;166m\]'
+
+GIT_PROMPT_PREFIX="[ "
+GIT_PROMPT_SUFFIX=" ]"
+GIT_PROMPT_SEPARATOR=" | "
+GIT_PROMPT_BRANCH="${Magenta}"
+GIT_PROMPT_STAGED="${Yellow}● "
+GIT_PROMPT_CONFLICTS="${Red}✖ "
+GIT_PROMPT_CHANGED="${Blue}✚ "
+GIT_PROMPT_UNTRACKED="${Cyan}… "
+GIT_PROMPT_STASHED="${BoldMagenta}⚑ "
+GIT_PROMPT_CLEAN="${Green}✔"
+
+GIT_PROMPT_COMMAND_OK="${Green}✔"
+GIT_PROMPT_COMMAND_FAIL="${Red}✘"
+
+GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="✭"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${Yellow}[${Time12a}]${ResetColor} ${Cyan}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+GIT_PROMPT_END_USER="${Orange} λ ${ResetColor}"
+GIT_PROMPT_END_ROOT="${BoldRed} # ${ResetColor}"

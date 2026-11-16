@@ -1,0 +1,14 @@
+# shellcheck shell=bash
+# Single_line_username_repo.bgptheme - Single_line displaying <owner>/<repo> from origin URL
+
+GIT_PROMPT_THEME_NAME="Single_line_username_repo"
+
+GIT_PROMPT_WITH_USERNAME_AND_REPO=1
+GIT_PROMPT_USERNAME_REPO_SEPARATOR=" | "
+GIT_PROMPT_PREFIX="[ ${Blue}_USERNAME_REPO_"
+GIT_PROMPT_SUFFIX=" ]"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${White}${Time12a}${ResetColor} ${BoldYellow}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+GIT_PROMPT_END_USER=" $ "
+GIT_PROMPT_END_ROOT=" ${BoldRed}# ${ResetColor}"

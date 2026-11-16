@@ -1,0 +1,7 @@
+# shellcheck shell=bash
+# Default.bgptheme - Canonical default two-line theme for Bash Git Prompt
+#
+# All Default visual settings and symbols are populated by __gp_apply_default_theme_fallbacks
+# for any variable not explicitly overridden by the user in their session.
+
+GIT_PROMPT_THEME_NAME="Default"

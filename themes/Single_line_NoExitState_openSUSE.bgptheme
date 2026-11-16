@@ -1,0 +1,11 @@
+# shellcheck shell=bash
+# Single_line_NoExitState_openSUSE.bgptheme - Single-line openSUSE default style without exit state
+
+GIT_PROMPT_THEME_NAME="Single_line_NoExitState_openSUSE"
+
+GIT_PROMPT_BRANCH="${Cyan}"
+
+GIT_PROMPT_START_USER="\\u@\\h:${PathShort}"
+GIT_PROMPT_START_ROOT="${BoldRed}\\h:${PathShort}${ResetColor}"
+GIT_PROMPT_END_USER="> "
+GIT_PROMPT_END_ROOT=" # "

@@ -1,0 +1,44 @@
+# shellcheck shell=bash
+# Solarized_Extravagant.bgptheme - Rich Solarized two-line prompt with kernel, Ruby, and SSH indicator
+
+GIT_PROMPT_THEME_NAME="Solarized_Extravagant"
+
+__gp_sol_ext_ruby() {
+  local ruby=""
+  if command -v rvm-prompt >/dev/null 2>&1; then
+    ruby=$(rvm-prompt i v g 2>/dev/null)
+  elif command -v rbenv >/dev/null 2>&1; then
+    ruby=$(rbenv version-name 2>/dev/null)
+  fi
+  [[ -n $ruby ]] && printf '%s' "${Cyan}‹${ruby}›${ResetColor}"
+}
+
+__GP_SOL_KERNEL=$(command uname -r 2>/dev/null)
+__GP_SOL_RUBY=$(__gp_sol_ext_ruby)
+
+GIT_PROMPT_PREFIX="${Cyan}["
+GIT_PROMPT_SUFFIX="${Cyan}]"
+GIT_PROMPT_SEPARATOR="|"
+GIT_PROMPT_BRANCH="${Magenta}"
+GIT_PROMPT_STAGED="${Yellow}● "
+GIT_PROMPT_CONFLICTS="${Red}✖ "
+GIT_PROMPT_CHANGED="${Blue}✚ "
+GIT_PROMPT_UNTRACKED="${Cyan}… "
+GIT_PROMPT_STASHED="${BoldMagenta}⚑ "
+GIT_PROMPT_CLEAN="${Green}✔ "
+
+GIT_PROMPT_COMMAND_OK="${Green}✔ "
+GIT_PROMPT_COMMAND_FAIL="${Red}✘ "
+
+GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="✭"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_${BoldBlue}\\t${ResetColor} ${Green}‹${__GP_SOL_KERNEL}›${ResetColor}${__GP_SOL_RUBY} ${Yellow}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+
+if [[ -n ${SSH_CLIENT:-} ]]; then
+  GIT_PROMPT_END_USER="\n${BoldRed} ➤ ${ResetColor}"
+  GIT_PROMPT_END_ROOT="\n${BoldRed} » ${ResetColor}"
+else
+  GIT_PROMPT_END_USER="\n${BoldBlue} ➭ ${ResetColor}"
+  GIT_PROMPT_END_ROOT="\n${BoldRed} # ${ResetColor}"
+fi

@@ -1,0 +1,21 @@
+# shellcheck shell=bash
+# TruncatedPwd_WindowTitle_NoExitState.bgptheme - Debian-style truncated PWD + window title variant
+
+GIT_PROMPT_THEME_NAME="TruncatedPwd_WindowTitle_NoExitState"
+
+prompt_callback() {
+  local trunc_pwd safe_pwd
+  trunc_pwd=$(gp_truncate_pwd)
+  __gp_escape_for_ps1 "$trunc_pwd"
+  safe_pwd=$REPLY
+  printf '%s%s' \
+    "$(gp_set_window_title "\\u@\\h: ${trunc_pwd}")" \
+    "${Yellow}[\\u@\\h: ${safe_pwd}]${ResetColor}"
+}
+
+GIT_PROMPT_COMMAND_FAIL="${Red}✘"
+
+GIT_PROMPT_START_USER=""
+GIT_PROMPT_START_ROOT=""
+GIT_PROMPT_END_USER=" _LAST_COMMAND_INDICATOR_\n${White}${Time12a}${ResetColor} $ "
+GIT_PROMPT_END_ROOT=" _LAST_COMMAND_INDICATOR_\n${White}${Time12a}${ResetColor} # "

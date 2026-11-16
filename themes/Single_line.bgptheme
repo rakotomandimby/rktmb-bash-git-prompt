@@ -1,0 +1,9 @@
+# shellcheck shell=bash
+# Single_line.bgptheme - Single-line counterpart to Default
+
+GIT_PROMPT_THEME_NAME="Single_line"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${White}${Time12a}${ResetColor} ${BoldYellow}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="_LAST_COMMAND_INDICATOR_ ${White}${Time12a}${ResetColor} ${BoldYellow}${PathShort}${ResetColor}"
+GIT_PROMPT_END_USER=" $ "
+GIT_PROMPT_END_ROOT=" ${BoldRed}# ${ResetColor}"

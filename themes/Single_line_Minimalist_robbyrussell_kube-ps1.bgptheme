@@ -1,0 +1,21 @@
+# shellcheck shell=bash
+# Single_line_Minimalist_robbyrussell_kube-ps1.bgptheme - robbyrussell with dynamic kube_ps1 context
+
+GIT_PROMPT_THEME_NAME="Single_line_Minimalist_robbyrussell_kube-ps1"
+
+prompt_callback() {
+  gp_set_window_title "$(gp_truncate_pwd)"
+  if declare -F kube_ps1 >/dev/null 2>&1; then
+    printf ' %s' "$(kube_ps1)"
+  fi
+}
+
+PathShort="\W"
+
+GIT_PROMPT_COMMAND_OK="${BoldGreen}➜"
+GIT_PROMPT_COMMAND_FAIL="${BoldRed}➜"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_  ${BoldCyan}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${GIT_PROMPT_START_USER}"
+GIT_PROMPT_END_USER=" "
+GIT_PROMPT_END_ROOT=" # "

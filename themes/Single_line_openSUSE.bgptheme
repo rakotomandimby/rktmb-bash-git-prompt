@@ -1,0 +1,11 @@
+# shellcheck shell=bash
+# Single_line_openSUSE.bgptheme - Single-line openSUSE style with last command indicator
+
+GIT_PROMPT_THEME_NAME="Single_line_openSUSE"
+
+GIT_PROMPT_BRANCH="${Cyan}"
+
+GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ \\u@\\h:${PathShort}"
+GIT_PROMPT_START_ROOT="_LAST_COMMAND_INDICATOR_ ${BoldRed}\\h:${PathShort}${ResetColor}"
+GIT_PROMPT_END_USER="> "
+GIT_PROMPT_END_ROOT=" # "

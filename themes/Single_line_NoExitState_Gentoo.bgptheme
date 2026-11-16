@@ -1,0 +1,11 @@
+# shellcheck shell=bash
+# Single_line_NoExitState_Gentoo.bgptheme - Single-line Gentoo default style without exit state
+
+GIT_PROMPT_THEME_NAME="Single_line_NoExitState_Gentoo"
+
+GIT_PROMPT_BRANCH="${Cyan}"
+
+GIT_PROMPT_START_USER="${BoldGreen}\\u@\\h${ResetColor} ${BrightBlue}${PathShort}${ResetColor}"
+GIT_PROMPT_START_ROOT="${BoldRed}\\h${ResetColor} ${BrightBlue}${PathShort}${ResetColor}"
+GIT_PROMPT_END_USER="${BrightBlue} \\$ ${ResetColor}"
+GIT_PROMPT_END_ROOT="${BrightBlue} \\$ ${ResetColor}"
